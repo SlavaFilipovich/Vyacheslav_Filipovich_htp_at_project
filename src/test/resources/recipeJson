@@ -1,0 +1,18 @@
+{
+    "recipename": "Ice scream Sundae",
+    "ingredlist": [
+             {
+               "quantity": 3,
+               "description": "chocolate syrop or chocolate fudge"
+             },
+             {
+                "quantity": 1,
+                "description": "nuts"
+             },
+             {
+                 "quantity": 1,
+                 "description": "cherry"
+             }
+       ],
+    "preptime": 5
+}

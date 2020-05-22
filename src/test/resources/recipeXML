@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe>
+    <recipename>Ice scream Sundae</recipename>
+    <ingredlist>
+        <listitem>
+            <qantity>3</qantity>
+            <itemdescription>chocolate syrop or chocolate fudge</itemdescription>
+        </listitem>
+        <listitem>
+            <qantity>1</qantity>
+            <itemdescription>nuts</itemdescription>
+        </listitem>
+        <listitem>
+            <qantity>1</qantity>
+            <itemdescription>cherry</itemdescription>
+        </listitem>
+    </ingredlist>
+    <preptime>5 minutes</preptime>
+</recipe>
