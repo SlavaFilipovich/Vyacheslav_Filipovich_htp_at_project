@@ -1,4 +1,4 @@
-package actions;
+package utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,6 +6,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class GeneralUtils {
@@ -30,6 +35,18 @@ public class GeneralUtils {
     public static void waitVisibilityOfElement(WebDriver driver, String xPath){
         WebElement element = driver.findElement(By.xpath(xPath));
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public static Properties getProperties(String path) {
+        Properties properties = new Properties();
+        InputStream input = null;
+        try {
+            input = new FileInputStream(path);
+            properties.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties;
     }
 
 }

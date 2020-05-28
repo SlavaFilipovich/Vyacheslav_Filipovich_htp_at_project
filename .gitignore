@@ -12,3 +12,4 @@ out
 *.iws
 **/db.properties
 target
+/src/test/resources/

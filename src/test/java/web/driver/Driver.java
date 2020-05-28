@@ -2,18 +2,21 @@ package web.driver;
 
 import org.openqa.selenium.WebDriver;
 import settings.BrowserConfig;
+import utils.GeneralUtils;
+import utils.PathList;
 
 public class Driver {
     private static WebDriver driver;
+
 
     private Driver() throws IllegalAccessException{
         throw new IllegalAccessException("Utility class");
     }
 
-    public static void initDriver(BrowserConfig browserConfig){
+    public static void initDriver(){
         if(driver == null) {
             try {
-                driver = DriverHandler.getDriver(browserConfig);
+                driver = DriverHandler.getDriver(BrowserConfig.valueOf(GeneralUtils.getProperties(PathList.INSTALL_PROP).getProperty("BROWSER")));
             } catch (Exception e) {
                 e.printStackTrace();
             }

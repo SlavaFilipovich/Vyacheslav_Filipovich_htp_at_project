@@ -11,6 +11,7 @@ import settings.BrowserConfig;
 
 
 public class DriverHandler {
+
     public static WebDriver getDriver(BrowserConfig browserConfig) throws Exception {
         switch (browserConfig) {
             case CHROME:
