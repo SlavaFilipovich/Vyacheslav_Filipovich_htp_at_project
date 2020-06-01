@@ -1,5 +1,6 @@
 package web.pages.trashmail.mainPage;
 
+import org.junit.rules.Timeout;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,10 +24,13 @@ public class ManagerTab extends InitializingPage {
     }
 
     public void loginToTrashMail(){
-        clickFieldAndClear(fieldUserName);
+        //clickFieldAndClear(fieldUserName);
         fieldUserName.sendKeys(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("LOGIN"));
-        clickFieldAndClear(fieldPassword);
+        Timeout.seconds(2);
+        //clickFieldAndClear(fieldPassword);
         fieldPassword.sendKeys(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("PASSWORD"));
+        Timeout.seconds(2);
+        clickSignInButton();
     }
 
     public void clickFieldAndClear(WebElement element){
