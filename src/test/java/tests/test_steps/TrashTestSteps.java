@@ -2,6 +2,7 @@ package tests.test_steps;
 
 import org.junit.rules.Timeout;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import utils.GeneralUtils;
 import utils.PathList;
 import web.driver.Driver;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class TrashTestSteps {
-    private WebDriver driver;
+    private  WebDriver driver;
     private NewUserTab newUser;
     private QuickTab quickTab;
     private ManagerTab managerTab;
@@ -36,32 +37,21 @@ public class TrashTestSteps {
         managerTab = new ManagerTab(driver);
     }
 
-    public void getNewTemporaryEmail() throws InterruptedException, FileNotFoundException {
+    public void getNewTemporaryEmail(WebDriver driver) throws InterruptedException, FileNotFoundException {
         driver.get("https://trashmail.com");
-        if(registration) {
-            getNewEmail();
-         }
-         else
-             //(driver.findElements(By.xpath(ERROR_NO_REGISTRATION)).size() > 0)
-            {
-                quickTab.tabNewUser.click();
-                newUser.registerNewUser();
-                if(driver.findElements(By.xpath(ERROR_USER_EXISTS)).size() > 0){
-                    registration = true;
-                    quickTab.tabQuick.click();
-                    getNewEmail();
-                }
-                checkLetterForRegistration("TrashMail.com");
-                registration = true;
-//                String currentPage = driver.getWindowHandle();
-//            Set<String> handles = driver.getWindowHandles();
-//            for (String actual : handles) {
-//                if (actual.equalsIgnoreCase(currentPage)) {
-//                    driver.switchTo().window(currentPage);
-//                }
-//            }
+        getNewEmail();
+        if (driver.findElements(By.xpath(ERROR_NO_REGISTRATION)).size() > 0)
+        {
+            quickTab.tabNewUser.click();
+            newUser.registerNewUser();
+            checkLetterForRegistration("TrashMail.com");
+            if(driver.findElements(By.xpath(ERROR_USER_EXISTS)).size() > 0){
+                    //registration = true;
+                quickTab.tabQuick.click();
+                getNewEmail();
             }
-            Timeout.seconds(5);
+        }
+        Timeout.seconds(3);
     }
 
     public void getNewEmail() throws InterruptedException, FileNotFoundException {
@@ -76,24 +66,13 @@ public class TrashTestSteps {
         driver.navigate().to(GeneralUtils.getProperties(PathList.MY_EMAIL_PROP).getProperty("ADDRESS"));
         Thread.sleep(3000);//if(!(driver.findElement(By.xpath("//a[@data-statlog='mail.login.usermenu.exit']")).isDisplayed())){
         loginToEmail();
-
-        //driver.findElements(By.xpath("//a[@href='https://mail.yandex.by/']")).get(0).click();
-        //GeneralUtils.waitVisibilityOfElement(driver, "//a[@data-title = 'Входящие']");
-        //GeneralUtils.waitVisibilityOfElement(driver,String.format("//span[contains(text(),%s)]", sender));
-
-        WebElement letter = driver.findElement(By.xpath(String.format("//*[contains(text(), \"%s\")]", sender)));
-        Driver.scrollToElementAndClick(driver,letter);
+        WebElement letter = driver.findElement(By.xpath(String.format("//*[contains(text(), '%s')]", sender)));
+        Driver.navigateToElementAndClick(driver,letter);
+        //Driver.scrollToElementAndClick(driver,letter);
         TimeUnit.SECONDS.sleep(3);
-        //driver.findElement(By.xpath(String.format("//*[contains(text(), \"%s\")]", sender)));
-
-
-
-        //WebElement letter = driver.findElement(By.xpath(String.format("//span[contains(text(),%s)]", GeneralUtils.getProperties(PathList.BOOKING_PROP).getProperty("E-MAIL"))));
     }
 
     private void loginToEmail() throws InterruptedException {
-        //driver.findElement(By.xpath("//a[@data-statlog='notifications.mail.logout.domik.login.big']")).click();
-        //GeneralUtils.waitVisibilityOfElement(driver,"//input[@id='passp-field-login']");
         driver.findElement(By.xpath(SIGN_UP_XPATH)).click();
         driver.findElement(By.id(LOGIN_FIELD_ID)).sendKeys(GeneralUtils.getProperties(PathList.MY_EMAIL_PROP).getProperty("LOGIN"));
         driver.findElement(By.xpath(SUBMIT_XPATH)).click();
