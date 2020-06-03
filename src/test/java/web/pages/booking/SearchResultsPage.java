@@ -1,17 +1,21 @@
-package web.pages;
+package web.pages.booking;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import web.pages.InitializingPage;
+
 import java.util.List;
 
-public class SearchResultsBookingPage extends InitializingBookingPage{
+public class SearchResultsPage extends InitializingPage {
     Actions actions;
-    private String hotelElementXpath = "//*[@data-hotelid][%d]";
+    private static final String hotelElementHeart = "//*[@data-hotelid][%d]//button";
     private String hotelTextElementXpath = "//*[@data-hotelid][%d]//span[contains(@class,'sr-hotel__name')]";
+    private static final String HOTEL_LIST_XPATH = "//*[@id='hotellist_inner']/div[@data-hotelid]";
 
     @FindBy(xpath = "//a[@data-id='pri-1']")
     private WebElement checkMinPrice;
@@ -22,9 +26,11 @@ public class SearchResultsBookingPage extends InitializingBookingPage{
     @FindBy(xpath = "//a[@data-category='price']")
     private WebElement sortButton;
 
-    @FindBy(xpath = "//div[@class='bui-price-display__value prco-text-nowrap-helper prco-inline-block-maker-helper']")
-    private List<WebElement> listOfHotels;
+    @FindBy(xpath = "//*[@id='hotellist_inner']/div[@data-hotelid]")
+    public List<WebElement> listOfHotels;
 
+    @FindBy(xpath = "//div[@class='bui-price-display__value prco-text-nowrap-helper prco-inline-block-maker-helper']")
+    private List<WebElement> priceListOfHotels;
 
     @FindBy(id = "current_account")
     private WebElement buttonSignIn;
@@ -32,11 +38,13 @@ public class SearchResultsBookingPage extends InitializingBookingPage{
     @FindBy(id = "ss")
     private WebElement locationField;
 
-
-    public SearchResultsBookingPage(WebDriver driver){
+    public SearchResultsPage(WebDriver driver){
         super(driver);
         actions = new Actions(driver);
     }
+
+
+
 
     public void chooseListOfMinPrice(){
         actions.moveToElement(checkMinPrice).click(checkMinPrice).build().perform();
@@ -89,7 +97,7 @@ public class SearchResultsBookingPage extends InitializingBookingPage{
     }
 
     public Double getPricePerNightTheFirstHotelFromList(int amountOfDays){
-        String cost = listOfHotels.get(1).getText().replaceAll("[^0-9.]", "");
+        String cost = priceListOfHotels.get(1).getText().replaceAll("[^0-9.]", "");
         return Double.parseDouble(cost) / amountOfDays;
     }
 
