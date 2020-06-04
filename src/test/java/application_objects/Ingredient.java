@@ -1,4 +1,4 @@
-package application_items;
+package application_objects;
 
 public class Ingredient {
     public int quantity;

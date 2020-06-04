@@ -31,20 +31,15 @@ public class NewUserTab extends InitializingPage {
     }
 
     public void registerNewUser(){
-        //clickFieldAndClear(fieldUserName);
         fieldUserName.sendKeys(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("LOGIN"));
         Timeout.seconds(2);
-        //clickFieldAndClear(fieldPassword);
         fieldPassword.sendKeys(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("PASSWORD"));
         Timeout.seconds(2);
-        //clickFieldAndClear(fieldConfirmPassword);
         fieldConfirmPassword.sendKeys(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("PASSWORD"));
         Timeout.seconds(2);
-        //clickFieldAndClear(fieldRealEmail);
         fieldRealEmail.sendKeys(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("E-MAIL"));
         Timeout.seconds(2);
         clickRegisterButton();
-        GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).setProperty("REGISTRATION", "true");
         Timeout.seconds(2);
 
     }

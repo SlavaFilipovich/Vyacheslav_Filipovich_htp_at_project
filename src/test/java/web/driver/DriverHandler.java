@@ -7,10 +7,15 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import settings.BrowserConfig;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class DriverHandler {
+
 
     public static WebDriver getDriver(BrowserConfig browserConfig) throws Exception {
         switch (browserConfig) {
@@ -24,18 +29,29 @@ public class DriverHandler {
                 return getOperaDriver();
             case FIREFOX:
                 return getFirefoxDriver();
+            case REMOTE:
+                return getRemoteDriver();
             default:
                 throw new Exception("Unexpected Configuration of Driver");
         }
     }
 
     private static WebDriver getChromeDriver() {
-        //String pathToDriver = DriverHandler.class.getClassLoader().getResource("webdriver/chromedriver.exe").getPath();
         System.setProperty("webdriver.chrome.silentOutput", "true");
-        System.setProperty("webdriver.chrome.driver", "C://Tools/chromedriver.exe");      //"C://Tools/chromedriver.exe"
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--disable-popup-blocking");
-        return new ChromeDriver();
+        System.setProperty("webdriver.chrome.driver", "C://Tools/chromedriver.exe");
+        ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--headless");
+        //options.addArguments("--disable-gpu");
+        //options.addArguments("--window-size=1920,1200");
+        options.addArguments("--ignore-certificate-errors");
+        options.addArguments("--disable-popup-blocking");
+        return new ChromeDriver(options);
+    }
+
+    private static WebDriver getRemoteDriver() throws MalformedURLException{
+        ChromeOptions options = new ChromeOptions();
+        RemoteWebDriver webDriver = new RemoteWebDriver(new URL("https://localhost:4444/wd/hub"), options);
+        return webDriver;
     }
 
     private static WebDriver getFirefoxDriver() {

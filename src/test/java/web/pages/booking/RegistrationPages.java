@@ -8,7 +8,7 @@ import utils.GeneralUtils;
 import utils.PathList;
 import web.pages.InitializingPage;
 
-public class RegistrationPage extends InitializingPage {
+public class RegistrationPages extends InitializingPage {
 
     @FindBy(xpath = "//input[@id = 'login_name_register']")
     private WebElement loginEmailField;
@@ -22,7 +22,7 @@ public class RegistrationPage extends InitializingPage {
     @FindBy(xpath = "//button[@type = 'submit']")
     private WebElement buttonRegister;
 
-    public RegistrationPage(WebDriver driver) {
+    public RegistrationPages(WebDriver driver) {
         super(driver);
     }
 
@@ -34,6 +34,11 @@ public class RegistrationPage extends InitializingPage {
     public void fillInPasswordFields(){
         passwordField.sendKeys(GeneralUtils.getProperties(PathList.BOOKING_PROP).getProperty("PASSWORD"));
         confirmPasswordField.sendKeys(GeneralUtils.getProperties(PathList.BOOKING_PROP).getProperty("PASSWORD"));
+        buttonRegister.click();
+    }
+
+    public void fillInPasswordField(){
+        passwordField.sendKeys(GeneralUtils.getProperties(PathList.BOOKING_PROP).getProperty("PASSWORD"));
         buttonRegister.click();
     }
 

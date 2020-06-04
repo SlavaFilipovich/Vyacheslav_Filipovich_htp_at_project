@@ -31,10 +31,10 @@ public class QuickTab extends InitializingPage {
     @FindBy(xpath = "//div[@id='tab-mob-quick']//input[@ng-model='user.email']")
     public WebElement fieldRealEmail;
 
-    @FindBy(xpath = "//div[@id='tab-mob-quick']//select[@ng-model='selectedForward']")
+    @FindBy(xpath = "//*[@id='fe-mob-fwd-nb']")
     public WebElement menuNumberOfForwards;
 
-    @FindBy(xpath = "//div[@id='tab-mob-quick']//select[@ng-model='selectedLifespan']")
+    @FindBy(xpath = "//*[@id='fe-mob-life-span']")
     public WebElement menuLifeSpan;
 
     @FindBy(xpath = "//select[@ng-model='selectedDomain']/option[@value ='trashmail.com']")
@@ -57,9 +57,9 @@ public class QuickTab extends InitializingPage {
     }
 
     public void setForwardsAndLifespan(){
-        driver.findElement(By.xpath("//*[@id='fe-mob-fwd-nb']")).click();
+        menuNumberOfForwards.click();
         driver.findElement(By.xpath("//*[@id='fe-mob-fwd-nb']/option[contains(text(), '1')]")).click();
-        driver.findElement(By.xpath("//*[@id='fe-mob-life-span']")).click();
+        menuLifeSpan.click();
         driver.findElement(By.xpath("//*[@id='fe-mob-life-span']/option[contains(text(), '1 day')]")).click();
     }
 
@@ -71,13 +71,12 @@ public class QuickTab extends InitializingPage {
         Properties prop = GeneralUtils.getProperties(PathList.BOOKING_PROP);
         OutputStream out = new FileOutputStream(PathList.BOOKING_PROP);
         String value = driver.findElement(By.xpath("//*[contains(@value,'trash')]")).getAttribute("value");
-        prop.put("E_MAIL", value);
+        prop.put("E-MAIL", value);
         try {
             prop.store(out, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
-                //(fieldDisposeEmail.getAttribute("value").concat(menuDomain.getAttribute("value"))));
     }
 
 

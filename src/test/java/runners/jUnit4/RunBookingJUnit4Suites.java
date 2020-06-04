@@ -1,4 +1,4 @@
-package runners;
+package runners.jUnit4;
 
 import org.junit.FixMethodOrder;
 import org.junit.runner.RunWith;
@@ -9,6 +9,6 @@ import tests.booking.BookingHotelsTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({BookingHotelsTest.class})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RunBookingSuites {
+public class RunBookingJUnit4Suites {
 
 }

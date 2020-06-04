@@ -1,7 +1,7 @@
 package utils;
 
-import application_items.Ingredient;
-import application_items.Recipe;
+import application_objects.Ingredient;
+import application_objects.Recipe;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

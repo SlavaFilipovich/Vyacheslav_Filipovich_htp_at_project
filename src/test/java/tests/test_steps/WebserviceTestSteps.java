@@ -26,7 +26,7 @@ public class WebserviceTestSteps {
     private static final String URL = "http://178.124.206.46:8001/app/ws/";
     private static Search[] searches;
 
-    
+
     public static String setHttpResponse(Gson gson, Search search) throws URISyntaxException, IOException {
         HttpClient client = HttpClientBuilder.create().build();
         URIBuilder builder = new URIBuilder(URL);

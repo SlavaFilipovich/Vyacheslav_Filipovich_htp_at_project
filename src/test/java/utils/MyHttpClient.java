@@ -1,6 +1,6 @@
 package utils;
 
-import application_items.Search;
+import application_objects.Search;
 import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;

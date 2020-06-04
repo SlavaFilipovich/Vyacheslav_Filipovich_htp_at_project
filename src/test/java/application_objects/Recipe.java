@@ -1,4 +1,4 @@
-package application_items;
+package application_objects;
 
 import java.util.Arrays;
 

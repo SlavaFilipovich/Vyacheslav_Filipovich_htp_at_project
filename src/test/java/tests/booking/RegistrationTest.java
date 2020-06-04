@@ -1,9 +1,6 @@
 package tests.booking;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import settings.ScreenConfig;
@@ -36,14 +33,9 @@ public class RegistrationTest {
         trashSteps.getNewTemporaryEmail(driver);
     }
 
-    @Before
-    public void initializePages() {
-
-    }
-
     @Test
     public void bookingRegistrationTest() throws InterruptedException, FileNotFoundException {
-        bookingSteps.registerAccount();
+        bookingSteps.registerAccountBooking();
         trashSteps.checkLetterForRegistration("booking.com");
         String currentHandle = driver.getWindowHandle();
         driver.findElement(By.xpath(CONFIRMATION_LINK)).click();
@@ -55,5 +47,10 @@ public class RegistrationTest {
         }
         bookingSteps.goToBookingDashboard();
         bookingSteps.verifyAlertMessageIsNotExisted();
+    }
+
+    @AfterClass
+    public static void postConditionSteps() {
+        Driver.destroy();
     }
 }

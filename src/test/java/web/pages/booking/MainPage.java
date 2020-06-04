@@ -1,15 +1,18 @@
-package web.pages;
+package web.pages.booking;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.GeneralUtils;
+import utils.PathList;
+import web.pages.InitializingPage;
 
-import static actions.BookingUtils.*;
+import static utils.BookingUtils.*;
 
 
-public class MainBookingPage extends InitializingBookingPage{
+public class MainPage extends InitializingPage {
 
     @FindBy(id = "current_account_create")
     private WebElement buttonRegister;
@@ -39,8 +42,12 @@ public class MainBookingPage extends InitializingBookingPage{
     private WebElement buttonSearch;
 
 
-    public MainBookingPage(WebDriver driver){
+    public MainPage(WebDriver driver){
         super(driver);
+    }
+
+    public void navigateToSite(){
+        driver.get(GeneralUtils.getProperties(PathList.BOOKING_PROP).getProperty("ADDRESS"));
     }
 
     public void enterDesiredLocation(String place){
@@ -55,7 +62,7 @@ public class MainBookingPage extends InitializingBookingPage{
         WebElement dateFrom=driver.findElement(By.xpath(generateDateXPAth(afterDays)));
         Thread.sleep(3000);
         dateFrom.click();
-        WebElement dateTo=driver.findElement(By.xpath(generateDateXPAth(duration)));
+        WebElement dateTo=driver.findElement(By.xpath(generateDateXPAth(duration+afterDays)));
         dateTo.click();
     }
 
