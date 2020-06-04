@@ -10,6 +10,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import utils.PathList;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,12 +23,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class WebserviceTestSteps {
-    public static String JSON = "src\\test\\java\\data_files\\searchWeb";
     private static final String URL = "http://178.124.206.46:8001/app/ws/";
     private static Search[] searches;
 
-
-
+    
     public static String setHttpResponse(Gson gson, Search search) throws URISyntaxException, IOException {
         HttpClient client = HttpClientBuilder.create().build();
         URIBuilder builder = new URIBuilder(URL);
@@ -41,7 +40,7 @@ public class WebserviceTestSteps {
 
 
     public static Search getSearchDataFromFile(Gson gson, int condition) throws FileNotFoundException {
-        searches = gson.fromJson(new JsonReader(new FileReader(JSON)), Search[].class);
+        searches = gson.fromJson(new JsonReader(new FileReader(PathList.WS_JSON)), Search[].class);
         return searches[condition];
     }
 
