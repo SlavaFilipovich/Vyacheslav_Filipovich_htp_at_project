@@ -124,4 +124,9 @@ public class BookTestSteps {
     public void verifyAlertMessageIsNotExisted() {
         Assert.assertEquals(driver.findElements(By.xpath(ALERT_MESSAGE_XPATH)).size(), 0);
     }
+
+    public boolean elementIsDisplayed(String xpath){
+        WebElement element = driver.findElement(By.xpath(xpath));
+        return element.isDisplayed();
+    }
 }
