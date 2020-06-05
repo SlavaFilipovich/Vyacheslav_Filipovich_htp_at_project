@@ -1,6 +1,6 @@
 Feature: Addition to trip list
 
-Scenario: I run AdditionToTripList Test
+  Scenario: I run AdditionToTripList Test
     Given I go to booking.com and sign in
     When I enter desired location
     And enter duration of my trip
