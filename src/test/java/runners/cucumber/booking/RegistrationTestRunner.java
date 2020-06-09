@@ -1,4 +1,4 @@
-package runners.cucumber;
+package runners.cucumber.booking;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
@@ -9,11 +9,11 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         glue = {"steps/cucumber"},
-        features = {"src/test/resources/features/booking_features/BookingHotelsTest.feature"},
-        //tags = {"@qa or @prod"},
+        features = {"src/test/resources/features/booking_features/RegistrationTest.feature"},
         monochrome = false,
         snippets = SnippetType.CAMELCASE,
         strict = true)
 
-public class HotelsTestRunner {
+
+public class RegistrationTestRunner {
 }

@@ -6,6 +6,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.jsoup.Connection;
 import org.openqa.selenium.WebDriver;
 import settings.ScreenConfig;
 import settings.ScreenSettings;
@@ -15,29 +16,38 @@ import web.driver.Driver;
 import web.pages.booking.MainPage;
 import web.pages.booking.SearchResultsPage;
 
-public class BookingHotelsSteps {
+public class BookingHotelsSteps{
     private static WebDriver driver;
     private static MainPage mainPage;
     private static SearchResultsPage searchResult;
     private static BookingTestSteps bookingTestSteps;
 
+    private static final String BOOKING_ADDRESS = "https://booking.com";
     private static final String MAX_PRICE_TEXT_FROM_MIN = "//a[@data-id='pri-1']//span";
     private static final String MAX_PRICE_TEXT_FROM_MAX = "//a[@data-id='pri-5']//span";
 
-    @Before
-    public static void preconditionSteps() {
-        //Driver.initDriver();
-        driver = Driver.getDriver();
-        ScreenSettings.setScreenMode(ScreenConfig.FULL_SCREEN, driver);
-        GeneralUtils.setTimeOuts(driver);
-        mainPage = new MainPage(driver);
-        searchResult = new SearchResultsPage(driver);
-        bookingTestSteps = new BookingTestSteps(driver);
+    public BookingHotelsSteps(){
+        driver = BaseSteps.driver;
+        mainPage = BaseSteps.mainPage;
+        bookingTestSteps = BaseSteps.bookingTestSteps;
+        searchResult = BaseSteps.searchResult;
     }
+
+
+//   @Before
+//    public static void preconditionSteps() {
+//        //Driver.initDriver();
+//        driver = Driver.getDriver();
+//        ScreenSettings.setScreenMode(ScreenConfig.FULL_SCREEN, driver);
+//        GeneralUtils.setTimeOuts(driver);
+//        mainPage = new MainPage(driver);
+//        searchResult = new SearchResultsPage(driver);
+//        bookingTestSteps = new BookingTestSteps(driver);
+//    }
 
     @Given("I go to booking.com")
     public void iGoToBookingCom() {
-        mainPage.navigateToSite();
+        driver.get(BOOKING_ADDRESS);
     }
 
     @When("I enter desired location")
@@ -113,11 +123,6 @@ public class BookingHotelsSteps {
     @And("Color of text should be red")
     public void colorOfTextShouldBeRed() {
         bookingTestSteps.valueOfTextAttributeShouldBeChanged(10, "color: red;", "style");
-    }
-
-    @After
-    public static void postConditionSteps() {
-        Driver.destroy();
     }
 
 }
