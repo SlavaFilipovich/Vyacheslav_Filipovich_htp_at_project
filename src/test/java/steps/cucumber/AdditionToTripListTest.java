@@ -1,4 +1,4 @@
-package tests.cucumber;
+package steps.cucumber;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -9,7 +9,7 @@ import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
 import settings.ScreenConfig;
 import settings.ScreenSettings;
-import tests.test_steps.BookTestSteps;
+import steps.BookingTestSteps;
 import utils.GeneralUtils;
 import web.driver.Driver;
 import web.pages.booking.MainPage;
@@ -17,7 +17,7 @@ import web.pages.booking.MainPage;
 public class AdditionToTripListTest {
     private static WebDriver driver;
     private static MainPage mainPage;
-    private static BookTestSteps bookingSteps;
+    private static BookingTestSteps bookingSteps;
 
     @Before
     public void initializePages() {
@@ -25,7 +25,7 @@ public class AdditionToTripListTest {
         driver = Driver.getDriver();
         ScreenSettings.setScreenMode(ScreenConfig.FULL_SCREEN, driver);
         GeneralUtils.setTimeOuts(driver);
-        bookingSteps = new BookTestSteps(driver);
+        bookingSteps = new BookingTestSteps(driver);
         mainPage = new MainPage(driver);
     }
 
@@ -34,10 +34,10 @@ public class AdditionToTripListTest {
         bookingSteps.signInBooking();
    }
 
-   @When("I enter desired location")
-   public void iEnterDesiredLocation() throws InterruptedException {
+    @When("I enter desired location")
+    public void iEnterDesiredLocation() {
         mainPage.enterDesiredLocation("Madrid");
-   }
+    }
 
     @And("enter duration of my trip")
     public void enterDurationOfMyTrip() throws InterruptedException {

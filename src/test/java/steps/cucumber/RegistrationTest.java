@@ -1,4 +1,4 @@
-package tests.cucumber;
+package steps.cucumber;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -6,13 +6,12 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import settings.ScreenConfig;
 import settings.ScreenSettings;
-import tests.test_steps.BookTestSteps;
-import tests.test_steps.TrashTestSteps;
+import steps.BookingTestSteps;
+import steps.TrashTestSteps;
 import utils.GeneralUtils;
 import web.driver.Driver;
 
@@ -22,7 +21,7 @@ import java.util.Set;
 public class RegistrationTest {
     private static WebDriver driver;
     private static TrashTestSteps trashSteps;
-    private static BookTestSteps bookingSteps;
+    private static BookingTestSteps bookingSteps;
     private static final String CONFIRMATION_LINK = "//*[contains(text(),'Подтверждаю')]";
 
     @Before
@@ -32,7 +31,7 @@ public class RegistrationTest {
         ScreenSettings.setScreenMode(ScreenConfig.FULL_SCREEN, driver);
         GeneralUtils.setTimeOuts(driver);
         trashSteps = new TrashTestSteps(driver);
-        bookingSteps = new BookTestSteps(driver);
+        bookingSteps = new BookingTestSteps(driver);
     }
 
     @Given("I get temporary Email from TrashMail.com")
