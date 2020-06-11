@@ -1,18 +1,14 @@
 package steps.cucumber;
 
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.jsoup.Connection;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import settings.ScreenConfig;
-import settings.ScreenSettings;
-import steps.BookingTestSteps;
-import utils.GeneralUtils;
-import web.driver.Driver;
+import steps.junit.BookingTestSteps;
+import utils.LoggerList;
 import web.pages.booking.MainPage;
 import web.pages.booking.SearchResultsPage;
 
@@ -25,6 +21,7 @@ public class BookingHotelsSteps{
     private static final String BOOKING_ADDRESS = "https://booking.com";
     private static final String MAX_PRICE_TEXT_FROM_MIN = "//a[@data-id='pri-1']//span";
     private static final String MAX_PRICE_TEXT_FROM_MAX = "//a[@data-id='pri-5']//span";
+    private static final Logger LOGGER = LogManager.getLogger(BookingHotelsSteps.class);
 
     public BookingHotelsSteps(){
         driver = BaseSteps.driver;
@@ -33,46 +30,41 @@ public class BookingHotelsSteps{
         searchResult = BaseSteps.searchResult;
     }
 
-
-//   @Before
-//    public static void preconditionSteps() {
-//        //Driver.initDriver();
-//        driver = Driver.getDriver();
-//        ScreenSettings.setScreenMode(ScreenConfig.FULL_SCREEN, driver);
-//        GeneralUtils.setTimeOuts(driver);
-//        mainPage = new MainPage(driver);
-//        searchResult = new SearchResultsPage(driver);
-//        bookingTestSteps = new BookingTestSteps(driver);
-//    }
-
     @Given("I go to booking.com")
     public void iGoToBookingCom() {
-        driver.get(BOOKING_ADDRESS);
+        LOGGER.info(LoggerList.STARTING_TEST);
+        LOGGER.info(LoggerList.GO_TO_BOOKING);
+        mainPage.navigateToBooking();
     }
 
-    @When("I enter desired location")
-    public void iEnterDesiredLocation() {
-        mainPage.enterDesiredLocation("Москва");
+    @When("I enter desired location {string}")
+    public void iEnterDesiredLocation(String string) {
+        LOGGER.info(LoggerList.ENTER_LOCATION);
+        mainPage.enterDesiredLocation(string);
     }
 
-    @And("Enter duration of Trip")
-    public void enterDurationTrip() throws InterruptedException {
-        mainPage.enterTripDurationFromTo(5, 10);
+    @And("Enter duration of Trip {int} days in {int} days")
+    public void enterDurationTrip(int in, int duration) throws InterruptedException {
+        LOGGER.info(LoggerList.ENTER_DURATION);
+        mainPage.enterTripDurationFromTo(in, duration);
     }
 
-    @And("Enter number of Adults, Children, Rooms and click Search")
-    public void enterNumberOfAdultsChildrenRoomsAndClickSearch() throws InterruptedException {
-        mainPage.enterAdultsChildrenRooms(4, 2, 1);
+    @And("Enter number of Adults {int}, Children {int}, Rooms {int} and click Search")
+    public void enterNumberOfAdultsChildrenRoomsAndClickSearch(int adults, int children, int rooms) {
+        LOGGER.info(LoggerList.ENTER_ADULTS_CHILDREN_ROOMS);
+        mainPage.enterAdultsChildrenRooms(adults, children, rooms);
         mainPage.clickSearchButton();
     }
 
     @And("I set filter with Min price per night")
     public void iSetFilterWithMinPricePerNight() {
+        LOGGER.info(LoggerList.SET_FILTER_WITH_MIN_PRICE);
         searchResult.chooseListOfMinPrice();
     }
 
     @And("I set filter with Max price per night")
-    public void iSetFilterWithMaxPricePerNight() throws InterruptedException {
+    public void iSetFilterWithMaxPricePerNight() {
+        LOGGER.info(LoggerList.SET_FILTER_WITH_MAX_PRICE);
         searchResult.chooseListOfMaxPrice();
     }
 
@@ -81,47 +73,44 @@ public class BookingHotelsSteps{
         searchResult.clickSortButton();
     }
 
-    @And("I set stars of hotels")
-    public void iSetStarsOfHotels() throws InterruptedException {
-        searchResult.setStarOfHotel(3);
-        searchResult.setStarOfHotel(4);
-        Thread.sleep(3000);
+    @And("I set star {int} for hotels")
+    public void iSetStarsOfHotels(int star) throws InterruptedException {
+        LOGGER.info(LoggerList.SET_STAR_OF_HOTEL+star);
+        searchResult.setStarOfHotel(star);
+        Thread.sleep(2000);
     }
 
     @And("Set background color as green")
     public void setBackgroundColorAsGreen() throws InterruptedException {
+        LOGGER.info(LoggerList.SET_ELEMENT_COLOR);
         searchResult.setElementAttribute(10, "backgroundColor", "green");
     }
 
     @And("Set color of text as red")
     public void setColorOfTextAsRed() throws InterruptedException {
+        LOGGER.info(LoggerList.SET_ELEMENT_COLOR);
         searchResult.setElementTextAttribute(10, "color", "red");
     }
 
-    @Then("I verify that price from checkbox-menu greater than from hotel-list")
-    public void iVerifyPriceFromCheckboxGreaterThanFromHotelList() throws InterruptedException {
+    @Then("I verify that price from checkbox-menu greater than from hotel-list with duration {int} days")
+    public void iVerifyPriceFromCheckboxGreaterThanFromHotelList(int duration) throws InterruptedException {
+        LOGGER.info(LoggerList.VERIFYING_PRICE_OF_HOTEL);
         double priceFromCheckBox = searchResult.getMaxPriceFromCheckBoxMenu(MAX_PRICE_TEXT_FROM_MIN);
-        double perNight = searchResult.getPricePerNightTheFirstHotelFromList(10);
+        double perNight = searchResult.getPricePerNightTheFirstHotelFromList(duration);
         bookingTestSteps.priceFirstShouldBeGreaterThanSecond(priceFromCheckBox, perNight);
         Thread.sleep(5000);
     }
 
-
-    @Then("Filter price should be greater than hotel price in list")
-    public void filterPriceShouldBeGreaterThanHotelPriceInList() throws InterruptedException {
-        double priceFromCheckBox = searchResult.getMaxPriceFromCheckBoxMenu(MAX_PRICE_TEXT_FROM_MAX);
-        double perNight = searchResult.getPricePerNightTheFirstHotelFromList(7);
-        bookingTestSteps.priceFirstShouldBeGreaterThanSecond(priceFromCheckBox, perNight);
-        Thread.sleep(5000);
-    }
 
     @Then("Color of background should be green")
     public void colorOfBackgroundShouldBeGreen() {
+        LOGGER.info(LoggerList.CHECKING_ELEMENT_COLOR);
         bookingTestSteps.valueOfAttributesShouldBeChanged(10, "background-color: green;", "style");
     }
 
     @And("Color of text should be red")
     public void colorOfTextShouldBeRed() {
+        LOGGER.info(LoggerList.CHECKING_ELEMENT_COLOR);
         bookingTestSteps.valueOfTextAttributeShouldBeChanged(10, "color: red;", "style");
     }
 

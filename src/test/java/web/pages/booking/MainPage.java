@@ -1,5 +1,7 @@
 package web.pages.booking;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -41,16 +43,19 @@ public class MainPage extends InitializingPage {
     @FindBy(xpath = "//button[@data-sb-id='main']")
     private WebElement buttonSearch;
 
+    private static final Logger LOGGER = LogManager.getLogger(MainPage.class);
 
     public MainPage(WebDriver driver){
         super(driver);
     }
 
-    public void navigateToSite(){
+    public void navigateToBooking(){
+        LOGGER.debug("Go to Booking.com");
         driver.get(GeneralUtils.getProperties(PathList.BOOKING_PROP).getProperty("ADDRESS"));
     }
 
     public void enterDesiredLocation(String place){
+        LOGGER.debug("Click"+locationField.getText()+", clear field and send place");
         locationField.click();
         locationField.clear();
         locationField.sendKeys(place);
@@ -58,6 +63,7 @@ public class MainPage extends InitializingPage {
     }
 
     public void enterTripDurationFromTo(int afterDays, int duration) throws InterruptedException {
+        LOGGER.debug("Set up duration of trip "+duration+ " in "+afterDays+" days");
         calendarMenu.click();
         WebElement dateFrom=driver.findElement(By.xpath(generateDateXPAth(afterDays)));
         Thread.sleep(3000);
@@ -67,6 +73,7 @@ public class MainPage extends InitializingPage {
     }
 
     public void enterAdultsChildrenRooms(int adults, int children, int rooms){
+        LOGGER.debug("Set up adults "+adults+ ", children "+children+" and rooms "+rooms);
         buttonSettingsTrip.click();
         JavascriptExecutor jsDriver = (JavascriptExecutor) driver;
         jsDriver.executeScript("arguments[0].setAttribute('value', '"+adults+"')", fieldAdults);
@@ -76,14 +83,17 @@ public class MainPage extends InitializingPage {
     }
 
     public void clickSearchButton(){
+        LOGGER.debug("Click search button to get result hotel-page");
         buttonSearch.click();
     }
 
     public void clickRegister(){
+        LOGGER.debug("Click Registration button");
         buttonRegister.click();
     }
 
     public void clickSignIn(){
+        LOGGER.debug("Click SignIn button");
         buttonSignIn.click();
     }
 

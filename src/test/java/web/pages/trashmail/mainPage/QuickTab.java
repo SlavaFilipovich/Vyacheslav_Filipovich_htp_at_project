@@ -1,5 +1,7 @@
 package web.pages.trashmail.mainPage;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,20 +45,24 @@ public class QuickTab extends InitializingPage {
     @FindBy(xpath = "//button[@id='fe-mob-submit']")
     public WebElement buttonCreateDisposeEmail;
 
+    private final Logger LOGGER = LogManager.getLogger(QuickTab.class);
 
     public QuickTab(WebDriver driver) {
         super(driver);
     }
 
-    public void navigateToSite(){
-        driver.get(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("ADDRESS"));
+    public void navigateToTrashmail(){
+        LOGGER.debug("Go to Trashmail");
+        driver.get("https://trashmail.com");
     }
 
     public void enterRealEmail(){
+        LOGGER.debug("Enter real user's email-address");
         fieldRealEmail.sendKeys(GeneralUtils.getProperties(PathList.TRASHMAIL_PROP).getProperty("E-MAIL"));
     }
 
     public void setForwardsAndLifespan(){
+        LOGGER.debug("Set Number of Forwards as 1 and Lifespan as 1 day");
         menuNumberOfForwards.click();
         driver.findElement(By.xpath("//*[@id='fe-mob-fwd-nb']/option[contains(text(), '1')]")).click();
         menuLifeSpan.click();
@@ -64,10 +70,12 @@ public class QuickTab extends InitializingPage {
     }
 
     public void clickCreateEmail(){
+        LOGGER.debug("Creating temporary Email");
         buttonCreateDisposeEmail.click();
     }
 
     public void saveNameEmail() throws FileNotFoundException {
+        LOGGER.debug("Saving our new Email-address to Property file...");
         Properties prop = GeneralUtils.getProperties(PathList.BOOKING_PROP);
         OutputStream out = new FileOutputStream(PathList.BOOKING_PROP);
         String value = driver.findElement(By.xpath("//*[contains(@value,'trash')]")).getAttribute("value");
@@ -77,6 +85,7 @@ public class QuickTab extends InitializingPage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        LOGGER.debug("Email has saved");
     }
 
 
