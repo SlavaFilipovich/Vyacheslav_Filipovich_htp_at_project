@@ -5,7 +5,7 @@ public class LoggerList {
     public static final String INITIALIZING_PAGES = "Initializing pages...";
     public static final String KILLING_DRIVER = "Killing driver...";
     public static final String STARTING_TEST = "Starting test...";
-    public static final String FINISHING_TEST = String.format("Test is finished");
+    public static final String FINISHING_TEST ="Test is finished";
     public static final String GO_TO_BOOKING = "Go to booking.com";
     public static final String ENTER_LOCATION = "I enter desired location - ";
     public static final String ENTER_DURATION = "Enter duration of Trip";
@@ -28,5 +28,5 @@ public class LoggerList {
     public static final String EXISTING_ELEMENT = "Element existed";
 
     public static final String GETTING_RESPONSE = "Getting response from server...";
-    public static final String MAKING_REQUEST = "Making request for server...";
+    //public static final String MAKING_REQUEST = "Making request for server...";
 }
