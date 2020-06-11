@@ -1,5 +1,7 @@
 package web.pages.booking;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -38,15 +40,15 @@ public class SearchResultsPage extends InitializingPage {
     @FindBy(id = "ss")
     private WebElement locationField;
 
+    private  static final Logger LOGGER = LogManager.getLogger(SearchResultsPage.class);
+
     public SearchResultsPage(WebDriver driver){
         super(driver);
         actions = new Actions(driver);
     }
 
-
-
-
     public void chooseListOfMinPrice(){
+        LOGGER.debug("Choosing check-box with MIN prices per night");
         actions.moveToElement(checkMinPrice).click(checkMinPrice).build().perform();
         try {
             Thread.sleep(5000);
@@ -56,6 +58,7 @@ public class SearchResultsPage extends InitializingPage {
     }
 
     public void chooseListOfMaxPrice() {
+        LOGGER.debug("Choosing check-box with MAX prices per night");
         actions.moveToElement(checkMaxPrice).click(checkMaxPrice).build().perform();
         try {
             Thread.sleep(5000);
@@ -65,6 +68,7 @@ public class SearchResultsPage extends InitializingPage {
     }
 
     public void clickSortButton(){
+        LOGGER.debug("Click sorting button (ascending)");
         actions.moveToElement(sortButton).click(sortButton).build().perform();
             try {
                 Thread.sleep(3000);
@@ -74,16 +78,18 @@ public class SearchResultsPage extends InitializingPage {
         }
 
     public void setStarOfHotel(int numberOfStars){
+        LOGGER.debug("Set star "+numberOfStars+" for Hotels");
         String xPath = String.format("//a[@data-id='class-%d']",numberOfStars);
         WebElement checkboxStar = driver.findElement(By.xpath(xPath));
         actions.moveToElement(checkboxStar).click(checkboxStar).perform();
-
     }
 
     public void setElementAttribute(int numberOfHotel, String attribute, String newValue) throws InterruptedException {
         WebElement hotelElement = driver.findElement(By.xpath(String.format("//*[@data-hotelid][%d]",numberOfHotel)));
+        LOGGER.debug("Scrolling to hotel element with id= "+numberOfHotel);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true)", hotelElement);
         Thread.sleep(3000);
+        LOGGER.debug("For Hotel-element "+numberOfHotel+" set attribute "+attribute+" as "+newValue);
         ((JavascriptExecutor) driver).executeScript(String.format("arguments[0].style.%s = '%s'",attribute,newValue), hotelElement);
         Thread.sleep(3000);
     }
@@ -92,20 +98,21 @@ public class SearchResultsPage extends InitializingPage {
         WebElement hotelElement = driver.findElement(By.xpath(String.format("//*[@data-hotelid][%d]", numberOfHotel)));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true)", hotelElement);
         Thread.sleep(3000);
+        LOGGER.debug("For Hotel-element "+numberOfHotel+" set Text-attribute "+attribute+" as "+newValue);
         WebElement nameOfHotel = driver.findElement(By.xpath(String.format("//*[@data-hotelid][%d]//span[contains(@class,'sr-hotel__name')]", numberOfHotel)));
         ((JavascriptExecutor) driver).executeScript(String.format("arguments[0].style.%s = '%s'", attribute, newValue), nameOfHotel);
     }
 
     public Double getPricePerNightTheFirstHotelFromList(int amountOfDays){
+        LOGGER.debug("Getting price per night the first Hotel from List");
         String cost = priceListOfHotels.get(1).getText().replaceAll("[^0-9.]", "");
         return Double.parseDouble(cost) / amountOfDays;
     }
 
     public Double getMaxPriceFromCheckBoxMenu(String xPath){
+        LOGGER.debug("Parse text of checkBoxMenu to get text view of Max price ");
         double minPrice, maxPrice;
-        String[] samplePrices = driver.findElement(By.xpath(xPath))
-                .getText()
-                .split("[-+]");
+        String[] samplePrices = driver.findElement(By.xpath(xPath)).getText().split("[-+]");
         String first = samplePrices[0].replaceAll("[^0-9.]", "");
         String second = samplePrices[1].replaceAll("[^0-9.]", "");
         if(first.equals("")){ minPrice = 0; } else minPrice = Double.parseDouble(first);

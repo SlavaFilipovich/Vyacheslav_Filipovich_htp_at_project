@@ -2,8 +2,11 @@ package steps.cucumber;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import steps.BookingTestSteps;
+import steps.junit.BookingTestSteps;
+import utils.LoggerList;
 
 
 public class HeaderElementsSteps {
@@ -21,6 +24,7 @@ public class HeaderElementsSteps {
     private static final String BUTTON_HELP_CENTER = "//*[contains(@class, 'helpcenter')]/a";
     private static final String BUTTON_LIST_PROPERTY = "//*[contains(@id, 'property')]";
     private static final String BUTTON_YOUR_ACCOUNT = "//*[contains(@id, 'account')]";
+    private static final Logger LOGGER = LogManager.getLogger(HeaderElementsSteps.class);
 
     public HeaderElementsSteps(){
         driver = BaseSteps.driver;
@@ -29,6 +33,7 @@ public class HeaderElementsSteps {
 
     @When("I sign in")
     public void iSignIn() throws InterruptedException {
+        LOGGER.info(LoggerList.LOGIN_ACCOUNT);
         bookingTestSteps.signInBooking();
     }
 
@@ -46,6 +51,7 @@ public class HeaderElementsSteps {
         bookingTestSteps.elementIsDisplayed(BUTTON_HELP_CENTER);
         bookingTestSteps.elementIsDisplayed(BUTTON_LIST_PROPERTY);
         bookingTestSteps.elementIsDisplayed(BUTTON_YOUR_ACCOUNT);
+        LOGGER.info(LoggerList.FINISHING_TEST);
     }
 
 }
