@@ -84,7 +84,8 @@ public class SilverScreenSteps {
     }
 
     @Then("I can see Red Carpet Club {string} in upper right corner")
-    public void iCanSeeRedCarpetClubLevelInUpperRightCorner(String level){
+    public void iCanSeeRedCarpetClubLevelInUpperRightCorner(String level) throws InterruptedException {
+        LOGGER.info("Getting number from line Films");
         Assert.assertTrue(BaseSilverSteps.searchForContainingWord(MY_LEVEL_XPATH, level));
     }
 

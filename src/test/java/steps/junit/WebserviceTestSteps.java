@@ -29,11 +29,10 @@ public class WebserviceTestSteps {
     private static Search[] searches;
     private static final Logger LOGGER = LogManager.getLogger(WebserviceTestSteps.class);
 
-
-    public static String setHttpResponse(Gson gson, Search search) throws URISyntaxException, IOException {
+    public static String getSearchDataFromHttpResponse(Gson gson, Search search) throws URISyntaxException, IOException {
         LOGGER.debug("Creating client and http request...");
         HttpClient client = HttpClientBuilder.create().build();
-        URIBuilder builder = new URIBuilder(URL);
+        URIBuilder builder = new URIBuilder(PathList.WS_URL);
         HttpPost request = new HttpPost(builder.build());
         request.setEntity(new StringEntity(gson.toJson(search)));
         LOGGER.debug("Creating http response...");
@@ -54,29 +53,32 @@ public class WebserviceTestSteps {
         Pattern pattern = Pattern.compile("\"username\": \"[A-z]+\"");
         Matcher matcher = pattern.matcher(response);
         List<String> list = new ArrayList<>();
-        while (matcher.find())
+        while (matcher.find()) {
             list.add(matcher.group());
-        list = list.stream().map(s -> s.replaceAll("\"username\": ", "")).map(s -> s.replaceAll("\"", "")).collect(Collectors.toList());
-        LOGGER.debug("All 'username' received");
+        }
+        //list = list.stream().map(s -> s.replaceAll("'username': ", "")).map(s -> s.replaceAll("\"", "")).collect(Collectors.toList());
+        LOGGER.debug("All 'username' received "+list.size());
         return list;
     }
 
     public static boolean fullCheck(List<String> list, String check) {
-        LOGGER.debug("Searching for 'FullName'");
-        Pattern pattern = Pattern.compile(String.format("^%s$",check));
+        LOGGER.debug("Searching for 'FullName'...");
+        Pattern pattern = Pattern.compile(String.format("\"username\": ^%s$",check));
         for (String x : list) {
-            if (!pattern.matcher(x).matches())
+            if (!pattern.matcher(x).matches()) {
                 return false;
+            }
         }
         return true;
     }
 
     public static boolean partialCheck(List<String> list, String check) {
-        LOGGER.debug("Searching for 'PartialName'");
-        Pattern pattern = Pattern.compile(String.format(".*%s.*",check));
+        LOGGER.debug("Searching for 'PartialName'...");
+        Pattern pattern = Pattern.compile(String.format("\"username\": .*%s.*",check));
         for (String x : list) {
-            if (!pattern.matcher(x).matches())
+            if (!pattern.matcher(x).matches()) {
                 return false;
+            }
         }
         return true;
     }
