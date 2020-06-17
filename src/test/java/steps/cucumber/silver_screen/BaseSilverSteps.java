@@ -40,7 +40,8 @@ public class BaseSilverSteps {
         Driver.destroy();
     }
 
-    public static Boolean searchForContainingWord(String xPath, String word){
+    public static Boolean searchForContainingWord(String xPath, String word) throws InterruptedException {
+        Thread.sleep(2000);
         String searchingLine = driver.findElement(By.xpath(xPath)).getText();
         return searchingLine.toLowerCase().contains(word.toLowerCase());
     }

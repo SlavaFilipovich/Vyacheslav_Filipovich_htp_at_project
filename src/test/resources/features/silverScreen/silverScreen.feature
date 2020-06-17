@@ -1,6 +1,6 @@
 Feature: Cinema
 
-  @qa
+
   Scenario: Search movie
     Given I open an app
     When I search for 'terminator' word
@@ -25,5 +25,5 @@ Feature: Cinema
 
   Scenario: Login app no such user
     Given I open an app
-    When I login with <login> and <password>
-    Then I see 'no such user' message
+    When I login with 'ai@gmail.ru' and 'qaz'
+    Then I see 'Пользователь не найден' message

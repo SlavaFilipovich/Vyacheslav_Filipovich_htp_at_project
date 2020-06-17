@@ -27,7 +27,7 @@ public class SilverPage extends InitializingPage {
     @FindBy(xpath = "//input[@type = 'password']")
     private WebElement passwordField;
 
-    @FindBy(xpath = "//*contains[text(), 'войти']")
+    @FindBy(xpath = "//*[contains(text(), 'Войти')]")
     private WebElement sigInButton;
 
     @FindBy(xpath = "//button[@type = 'reset']")
@@ -48,7 +48,7 @@ public class SilverPage extends InitializingPage {
         driver.get("https://silverscreen.by");
     }
 
-    public void searchFilms(String word){
+    public void searchFilms(String word) throws InterruptedException {
         LOGGER.debug("Searching films by name...");
         actions.moveToElement(resetButtons.get(1))
                 .moveToElement(searchingField)
@@ -56,6 +56,7 @@ public class SilverPage extends InitializingPage {
                 .sendKeys(word)
                 .sendKeys(Keys.ENTER)
                 .build().perform();
+        Thread.sleep(3000);
     }
 
     public void fillInLoginForSite(){
@@ -71,12 +72,15 @@ public class SilverPage extends InitializingPage {
     }
 
     public void clickSignIn(){
+        LOGGER.debug("Click Sign in...");
         sigInButton.click();
     }
 
 
-
-
-
-
+    public void loginToSite(String login, String password) {
+        LOGGER.debug("Login to site...");
+        actions.moveToElement(redCarpetButton).perform();
+        loginField.sendKeys(login);
+        passwordField.sendKeys(password);
+    }
 }
