@@ -51,6 +51,7 @@ public class Driver {
     public static void destroy() {
         driver.get().close();
         driver.get().quit();
+        driver.remove();
     }
 
     public static void scrollToElementAndClick(WebDriver driver, WebElement element){
