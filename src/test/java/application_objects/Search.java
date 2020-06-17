@@ -8,4 +8,12 @@ public class Search {
         this.user = user;
         this.strict = strict;
     }
+
+    @Override
+    public String toString() {
+        return "Search {\n" +
+                "user='" + user + '\'' +
+                ", \nstrict=" + strict +
+                '}';
+    }
 }
