@@ -1,4 +1,4 @@
-package application_objects;
+package at_classes;
 
 public class Ingredient {
     public int quantity;

@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"pretty"},
-        glue = {"steps"},
-        features = {"src/test/resources/features/ws_features/LookForUsersByName.feature"},
+        glue = {"steps/cucumber/web_services"},
+        features = {"src/test/resources/features/ws_features/WebServiceTest.feature"},
         monochrome = false,
         snippets = SnippetType.CAMELCASE,
         strict = true)

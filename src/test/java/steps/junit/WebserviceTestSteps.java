@@ -1,6 +1,9 @@
 package steps.junit;
 
+import application_objects.ExpectedSearchList;
+import application_objects.ResultData;
 import application_objects.Search;
+import application_objects.User;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import org.apache.http.HttpResponse;
@@ -12,21 +15,22 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import utils.PathList;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class WebserviceTestSteps {
     private static final String URL = "http://178.124.206.46:8001/app/ws/";
     private static Search[] searches;
+    private static ResultData resultData;
+    private static List<ResultData> resultDataList;
+    private static ExpectedSearchList expectedSearchList;
     private static final Logger LOGGER = LogManager.getLogger(WebserviceTestSteps.class);
 
     public static String getSearchDataFromHttpResponse(Gson gson, Search search) throws URISyntaxException, IOException {
@@ -38,48 +42,37 @@ public class WebserviceTestSteps {
         LOGGER.debug("Creating http response...");
         HttpResponse response = client.execute(request);
         String responseData = EntityUtils.toString(response.getEntity());
-        LOGGER.debug(responseData);
         return responseData;
     }
 
-    public static Search getSearchDataFromFile(Gson gson, int condition) throws FileNotFoundException {
-        LOGGER.debug("Getting data from JSon file...");
-        searches = gson.fromJson(new JsonReader(new FileReader(PathList.WS_JSON)), Search[].class);
+    public static Search getSearchDataFromSearchFile(Gson gson, int condition) throws FileNotFoundException {
+        LOGGER.debug("Getting data from Search JSon file...");
+        searches = gson.fromJson(new JsonReader(new FileReader(PathList.WS_SEARCH_JSON)), Search[].class);
         return searches[condition];
     }
 
-    public static List<String> getAllUserNames(String response) {
-        LOGGER.debug("Getting all 'username' from response data-file...");
-        Pattern pattern = Pattern.compile("\"username\": \"[A-z]+\"");
-        Matcher matcher = pattern.matcher(response);
-        List<String> list = new ArrayList<>();
-        while (matcher.find()) {
-            list.add(matcher.group());
-        }
-        //list = list.stream().map(s -> s.replaceAll("'username': ", "")).map(s -> s.replaceAll("\"", "")).collect(Collectors.toList());
-        LOGGER.debug("All 'username' received "+list.size());
-        return list;
+    public List <User> getDataFromResponseGSON(String response){
+        LOGGER.debug("Getting users data from Response...");
+        Gson gson = new Gson();
+        resultData = gson.fromJson(response, ResultData.class);
+        return resultData.getData();
     }
 
-    public static boolean fullCheck(List<String> list, String check) {
-        LOGGER.debug("Searching for 'FullName'...");
-        Pattern pattern = Pattern.compile(String.format("\"username\": ^%s$",check));
-        for (String x : list) {
-            if (!pattern.matcher(x).matches()) {
-                return false;
-            }
-        }
-        return true;
+    public List <User> getDataFromExpectedGSON(int condition) throws FileNotFoundException {
+        LOGGER.debug("Getting users data from Expected JSon file...");
+        Gson gson = new Gson();
+        expectedSearchList = gson.fromJson(new JsonReader(new FileReader(PathList.WS_RESULTS_JSON)), ExpectedSearchList.class);
+        resultDataList = expectedSearchList.getResultDataList();
+        return resultDataList.get(condition).getData();
     }
 
-    public static boolean partialCheck(List<String> list, String check) {
-        LOGGER.debug("Searching for 'PartialName'...");
-        Pattern pattern = Pattern.compile(String.format("\"username\": .*%s.*",check));
-        for (String x : list) {
-            if (!pattern.matcher(x).matches()) {
-                return false;
-            }
-        }
-        return true;
+    public void checkingAmountOfUsers(List<User> response, List<User> expected){
+        LOGGER.debug("Checking amount of users...");
+        Assert.assertTrue(response.size() == expected.size());
+    }
+
+    public void checkGottenResultEqualExpectedResult(List<User> response, List<User> expected){
+        LOGGER.debug("Comparison of userNames: response and expectation...");
+        Assert.assertTrue(response.equals(expected));
     }
 }
