@@ -1,6 +1,6 @@
-package runners;
+package at_classes;
 
-import utils.JsonParser;
+import at_classes.JsonParser;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package application_objects;
+package at_classes;
 
 import java.util.Arrays;
 

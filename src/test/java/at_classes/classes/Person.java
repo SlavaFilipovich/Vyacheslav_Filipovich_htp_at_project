@@ -1,4 +1,4 @@
-package classes;
+package at_classes.classes;
 
 public class Person {
     private String name;
