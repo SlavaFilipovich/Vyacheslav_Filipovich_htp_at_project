@@ -4,19 +4,19 @@
     "strict": true
   },
   {
-    "user": "a",
-    "strict": false
-  },
-  {
-    "user": "a",
-    "strict": true
-  },
-  {
     "user": "al",
     "strict": false
   },
   {
-    "user": "berta",
+    "user": "saldo",
+    "strict": true
+  },
+  {
+    "user": "a",
+    "strict": false
+  },
+  {
+    "user": "a",
     "strict": true
   }
 ]
