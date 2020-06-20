@@ -1,4 +1,4 @@
-package utils;
+package at_classes;
 
 import application_objects.Search;
 import com.google.gson.Gson;

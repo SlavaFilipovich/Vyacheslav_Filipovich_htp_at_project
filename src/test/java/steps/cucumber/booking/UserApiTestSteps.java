@@ -1,4 +1,4 @@
-package steps.cucumber;
+package steps.cucumber.booking;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
