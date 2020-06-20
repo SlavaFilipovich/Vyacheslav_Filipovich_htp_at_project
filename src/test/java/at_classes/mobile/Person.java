@@ -1,4 +1,4 @@
-package at_classes.classes;
+package at_classes.mobile;
 
 public class Person {
     private String name;
