@@ -53,8 +53,9 @@ public class RegistrationTest {
             if (actual.equalsIgnoreCase(currentHandle)) {
                 driver.switchTo().window(currentHandle);
             }
-            else driver.switchTo().activeElement();
+            else driver.switchTo().window(actual);
         }
+        driver.get(BOOKING_ADDRESS);
         bookingSteps.goToBookingDashboard();
         bookingSteps.verifyAlertMessageIsNotExisted();
         LOGGER.info(LoggerList.FINISHING_TEST);
