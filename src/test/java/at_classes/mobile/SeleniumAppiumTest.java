@@ -1,4 +1,4 @@
-package at_classes.classes;
+package at_classes.mobile;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

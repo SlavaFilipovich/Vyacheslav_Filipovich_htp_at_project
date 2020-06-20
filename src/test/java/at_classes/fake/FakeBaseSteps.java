@@ -1,10 +1,9 @@
-package tests.fake;
+package at_classes.fake;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import settings.BrowserConfig;
 import web.driver.Driver;
 
 public class FakeBaseSteps {
