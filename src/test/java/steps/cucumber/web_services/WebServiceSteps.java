@@ -1,7 +1,5 @@
 package steps.cucumber.web_services;
 
-import application_objects.ExpectedSearchList;
-import application_objects.ResultData;
 import application_objects.Search;
 import application_objects.User;
 import com.google.gson.Gson;
@@ -21,10 +19,6 @@ import java.util.List;
 
 public class WebServiceSteps {
     private static Gson gson;
-    private static Search[] searches;
-    private static ResultData resultData;
-    private static List<ResultData> resultDataList;
-    private static ExpectedSearchList expectedSearchList;
     private static WebserviceTestSteps webserviceTestSteps;
     private static List<User> response;
     private static List<User> expected;
@@ -54,14 +48,14 @@ public class WebServiceSteps {
 
     @Then("I compare gotten usernames with expected result for {string}")
     public void iCompareGottenUsernamesWithExpectedResultFor(String string){
-        LOGGER.info("I compare gotten UserNames with expected result by "+string);
+        LOGGER.info(LoggerList.COMPARISON_USERNAMES+string);
         webserviceTestSteps.checkGottenResultEqualExpectedResult(response,expected);
         LOGGER.info(LoggerList.FINISHING_TEST);
     }
 
     @Then("I compare gotten amount of Users with expected result")
     public void iCompareGottenAmountOfUsersWithExpectedResult(){
-        LOGGER.info("I compare gotten amount of Users with expected result = "+expected.size());
+        LOGGER.info(LoggerList.COMPARISON_AMOUNT_OF_USERS+expected.size());
         webserviceTestSteps.checkingAmountOfUsers(response,expected);
         LOGGER.info(LoggerList.FINISHING_TEST);
     }
