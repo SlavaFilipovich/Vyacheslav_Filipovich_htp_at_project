@@ -1,4 +1,4 @@
-package runners.cucumber;
+package at_classes;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;

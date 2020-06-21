@@ -37,17 +37,6 @@ public class Driver {
         return driver.get();
     }
 
-    public static WebDriver getDriver(BrowserConfig config) {
-        if (driver.get() == null) {
-            try {
-                driver.set(DriverHandler.getDriver(config));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return driver.get();
-    }
-
     public static void destroy() {
         driver.get().close();
         driver.get().quit();
