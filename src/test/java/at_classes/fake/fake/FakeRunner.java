@@ -1,4 +1,4 @@
-package runners.cucumber.fake;
+package at_classes.fake.fake;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -8,8 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         glue = {"at_classes.fake"},
-        features = {"src/test/resources/features/fake/FakeTwo.feature"})
+        features = {"src/test/resources/features/fake/FakeOne.feature"})
 
-
-public class FakeRunner2 {
+public class FakeRunner {
 }
