@@ -28,5 +28,11 @@ public class LoggerList {
     public static final String EXISTING_ELEMENT = "Element existed";
 
     public static final String GETTING_RESPONSE = "Getting response from server...";
+    public static final String COMPARISON_USERNAMES = "I compare gotten UserNames with expected result by ";
+    public static final String COMPARISON_AMOUNT_OF_USERS = "I compare gotten amount of Users with expected result =";
+    public static final String ENTER_LOGIN_PASSWORD = "Typing login and password...";
+    public static final String GETTING_NUMBER_OF_FILMS = "Getting number of films... ";
+    public static final String CHECKING_NAMES_OF_FILMS = "Checking names of films... ";
+
     //public static final String MAKING_REQUEST = "Making request for server...";
 }

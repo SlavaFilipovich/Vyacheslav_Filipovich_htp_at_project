@@ -11,8 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import utils.GeneralUtils;
-import utils.PathList;
+import utils.LoggerList;
 import web.pages.silver_screen.SilverPage;
 
 import java.util.List;
@@ -23,7 +22,6 @@ public class SilverScreenSteps {
     private static SilverPage silverPage;
     private static int amountOfFilms;
     private static List<WebElement> filmsList;
-    //private static String searchWord = GeneralUtils.getProperties(PathList.SILVER_PROP).getProperty("SEARCH_WORD");
     private static final String SEARCHING_RESULT_XPATH = "//*[contains(@class, 'responsive')]//a/span[contains(text(), '%s')]";
     private static final String LINE_FILMS = "//*[contains(text(), 'Фильмы')]";
     private static final String MY_LEVEL_XPATH = "(//*[contains(text(),'Мой уровень')])[1]";
@@ -45,14 +43,14 @@ public class SilverScreenSteps {
 
     @When("I search for {string} word")
     public void iSearchForSearchWord(String searchWord) throws InterruptedException {
-        LOGGER.info("Searching films for word");
+        LOGGER.info("Searching films for word"+searchWord);
         silverPage.searchFilms(searchWord);
         Thread.sleep(3000);
     }
 
     @When("I login with <login> and <password>")
     public void iLoginWithLoginAndPassword(){
-        LOGGER.info("Typing login and password...");
+        LOGGER.info(LoggerList.ENTER_LOGIN_PASSWORD);
         silverPage.fillInLoginForSite();
         silverPage.fillInPasswordForSite();
         silverPage.clickSignIn();
@@ -60,7 +58,7 @@ public class SilverScreenSteps {
 
     @When("I login with {string} and {string}")
     public void iLoginWithLoginAndPassword(String login, String password){
-        LOGGER.info("Typing incorrect login and password...");
+        LOGGER.info(LoggerList.ENTER_LOGIN_PASSWORD);
         silverPage.loginToSite(login, password);
         silverPage.clickSignIn();
     }
@@ -76,16 +74,16 @@ public class SilverScreenSteps {
 
     @Then("I see the list of movie items")
     public void iSeeTheListOfMovieItems() throws InterruptedException {
-        LOGGER.info("Getting number from line Films");
+        LOGGER.info(LoggerList.GETTING_NUMBER_OF_FILMS);
         amountOfFilms = Integer.parseInt(driver.findElement(By.xpath(LINE_FILMS)).getText().replaceAll("\\D", ""));
-        LOGGER.info("Number from line Films = "+amountOfFilms);
+        LOGGER.info(LoggerList.GETTING_NUMBER_OF_FILMS + amountOfFilms);
         Assert.assertNotEquals(0, amountOfFilms);
         Thread.sleep(2000);
     }
 
     @Then("I can see Red Carpet Club {string} in upper right corner")
     public void iCanSeeRedCarpetClubLevelInUpperRightCorner(String level) throws InterruptedException {
-        LOGGER.info("Getting number from line Films");
+        LOGGER.info(LoggerList.GETTING_NUMBER_OF_FILMS);
         Assert.assertTrue(BaseSilverSteps.searchForContainingWord(MY_LEVEL_XPATH, level));
     }
 
@@ -99,12 +97,12 @@ public class SilverScreenSteps {
 
     @And("each item name or description contains {string}")
     public void eachItemNameOrDescriptionContainsSearchWord(String searchWord) throws InterruptedException {
-        LOGGER.info("Getting list of films...");
+        LOGGER.info(LoggerList.CHECKING_NAMES_OF_FILMS);
         StringBuilder sb = new StringBuilder(searchWord);
         sb.deleteCharAt(0);
         filmsList = driver.findElements(By.xpath(String.format(SEARCHING_RESULT_XPATH, sb.toString())));
         Thread.sleep(1000);
-        LOGGER.info("Getting list of films with size = "+filmsList.size());
+        LOGGER.info(LoggerList.CHECKING_NAMES_OF_FILMS+filmsList.size());
         Assert.assertTrue(amountOfFilms == filmsList.size());
     }
 
